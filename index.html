@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DoorCraft — Qo'l bilan yasalgan eshiklar</title>
+<meta name="description" content="DoorCraft — Toshkentdagi ustaxona. Qo'lda yasalgan interyer, kirish va maxsus buyurtma eshiklar." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- RESET & BASE ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    color: #2a2118;
+    background: #fbf8f4;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  input, select, textarea { font-family: inherit; font-size: 1rem; color: inherit; }
+
+  :root {
+    --walnut: #5a3a22;
+    --walnut-dark: #3d2614;
+    --oak: #8b6914;
+    --oak-light: #a07b2a;
+    --cream: #fbf8f4;
+    --cream-deep: #f3ece0;
+    --charcoal: #1c1611;
+    --charcoal-soft: #2a2118;
+    --muted: #6b5d4f;
+    --line: #e5dcc9;
+    --white: #ffffff;
+    --shadow-sm: 0 2px 8px rgba(60, 38, 20, 0.06);
+    --shadow-md: 0 8px 30px rgba(60, 38, 20, 0.10);
+    --shadow-lg: 0 20px 60px rgba(60, 38, 20, 0.18);
+    --radius: 4px;
+    --container: 1200px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: var(--charcoal);
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .container {
+    width: 100%;
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section { padding: 96px 0; position: relative; }
+  .section-eyebrow {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--oak);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: clamp(2rem, 3.8vw, 2.9rem);
+    margin-bottom: 14px;
+  }
+  .section-subtitle {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 640px;
+    margin-bottom: 56px;
+  }
+  .section-head { text-align: center; margin: 0 auto 56px; max-width: 720px; }
+  .section-head .section-subtitle { margin-left: auto; margin-right: auto; }
+
+  /* ---------- BUTTONS ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+    border: 1.5px solid transparent;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--walnut);
+    color: var(--cream);
+    box-shadow: var(--shadow-sm);
+  }
+  .btn-primary:hover {
+    background: var(--walnut-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--cream);
+    border-color: rgba(251, 248, 244, 0.6);
+  }
+  .btn-secondary:hover {
+    background: var(--cream);
+    color: var(--walnut-dark);
+    border-color: var(--cream);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--walnut);
+    border-color: var(--walnut);
+  }
+  .btn-outline:hover {
+    background: var(--walnut);
+    color: var(--cream);
+  }
+  .btn-block { width: 100%; }
+
+  /* ---------- HEADER ---------- */
+  .site-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(251, 248, 244, 0.92);
+    backdrop-filter: saturate(1.2) blur(10px);
+    -webkit-backdrop-filter: saturate(1.2) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .site-header.scrolled {
+    border-bottom-color: var(--line);
+    box-shadow: var(--shadow-sm);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 76px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--charcoal);
+    letter-spacing: -0.01em;
+  }
+  .brand-icon {
+    width: 34px; height: 34px;
+    background: var(--walnut);
+    border-radius: 4px;
+    display: grid; place-items: center;
+    color: var(--cream);
+    box-shadow: inset 0 -8px 0 rgba(0,0,0,0.18), inset 0 8px 0 rgba(255,255,255,0.06);
+  }
+  .brand-icon svg { width: 18px; height: 18px; }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--charcoal-soft);
+    transition: color 0.2s ease;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: -6px;
+    width: 0; height: 2px;
+    background: var(--oak);
+    transition: width 0.25s ease;
+  }
+  .nav-links a:hover { color: var(--walnut); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .lang-toggle {
+    display: inline-flex;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px;
+    background: var(--white);
+  }
+  .lang-toggle button {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+  }
+  .lang-toggle button.active {
+    background: var(--walnut);
+    color: var(--cream);
+  }
+
+  .nav-cta { padding: 11px 22px; font-size: 0.9rem; }
+
+  .menu-btn {
+    display: none;
+    width: 42px; height: 42px;
+    border-radius: 4px;
+    color: var(--charcoal);
+  }
+  .menu-btn svg { width: 24px; height: 24px; }
+
+  .mobile-menu { display: none; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 140px 0 100px;
+    color: var(--cream);
+    overflow: hidden;
+    background-color: #2a1a0e;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url('images/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(0.55) saturate(1.1);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(135deg, rgba(28,22,17,0.78) 0%, rgba(58,36,20,0.55) 55%, rgba(28,22,17,0.6) 100%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.55) 100%);
+    pointer-events: none;
+  }
+  .hero .container { position: relative; z-index: 2; }
+  .hero-inner {
+    position: relative;
+    max-width: 820px;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    border: 1px solid rgba(251,248,244,0.3);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    color: rgba(251,248,244,0.9);
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--oak-light);
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    color: var(--cream);
+    margin-bottom: 24px;
+    font-weight: 700;
+    line-height: 1.05;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: #d4a85a;
+    font-weight: 500;
+  }
+  .hero p {
+    font-size: 1.15rem;
+    color: rgba(251,248,244,0.85);
+    max-width: 620px;
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 56px;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    max-width: 540px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(251,248,244,0.18);
+  }
+  .hero-stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--cream);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hero-stat .label {
+    font-size: 0.78rem;
+    color: rgba(251,248,244,0.65);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- WHY US ---------- */
+  .why { background: var(--cream); }
+  .features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .feature-card {
+    padding: 36px 28px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 3px; height: 0;
+    background: var(--oak);
+    transition: height 0.35s ease;
+  }
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: transparent;
+  }
+  .feature-card:hover::after { height: 100%; }
+  .feature-icon {
+    width: 54px; height: 54px;
+    border-radius: 6px;
+    background: var(--cream-deep);
+    display: grid; place-items: center;
+    color: var(--walnut);
+    margin-bottom: 22px;
+  }
+  .feature-icon svg { width: 26px; height: 26px; }
+  .feature-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+  }
+  .feature-card p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* ---------- SERVICES ---------- */
+  .services { background: var(--cream-deep); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .service-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--line);
+  }
+  .service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+  }
+  .service-icon-wrap {
+    height: 260px;
+    position: relative;
+    overflow: hidden;
+    background: #3d2614;
+  }
+  .service-icon-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    display: block;
+  }
+  .service-card:hover .service-icon-wrap img { transform: scale(1.06); }
+  .service-icon-wrap::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(28,22,17,0.25) 100%);
+    pointer-events: none;
+  }
+  .service-body { padding: 32px 28px; display: flex; flex-direction: column; flex: 1; }
+  .service-body h3 {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+  }
+  .service-body p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+    flex: 1;
+  }
+  .service-price {
+    display: inline-block;
+    background: var(--cream-deep);
+    color: var(--walnut-dark);
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    margin-bottom: 20px;
+    align-self: flex-start;
+  }
+  .service-price.custom { background: #f0e6d2; color: var(--walnut); }
+
+  /* ---------- PORTFOLIO ---------- */
+  .portfolio { background: var(--cream); }
+  .filter-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 48px;
+  }
+  .filter-tab {
+    padding: 10px 22px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--muted);
+    background: var(--white);
+    transition: all 0.2s ease;
+  }
+  .filter-tab:hover { color: var(--walnut); border-color: var(--walnut); }
+  .filter-tab.active {
+    background: var(--walnut);
+    color: var(--cream);
+    border-color: var(--walnut);
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    aspect-ratio: 4 / 5;
+    cursor: pointer;
+    background: var(--cream-deep);
+  }
+  .gallery-item:nth-child(2),
+  .gallery-item:nth-child(5) { aspect-ratio: 4 / 5; }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .gallery-item:hover img { transform: scale(1.06); }
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(28,22,17,0.85) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+    color: var(--cream);
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay .tag {
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #d4a85a;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .gallery-overlay h4 {
+    color: var(--cream);
+    font-size: 1.3rem;
+    margin-bottom: 14px;
+  }
+  .gallery-overlay .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cream);
+    border-bottom: 1px solid rgba(251,248,244,0.4);
+    padding-bottom: 4px;
+    width: fit-content;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .gallery-overlay .more:hover { color: #d4a85a; border-color: #d4a85a; }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials {
+    background: var(--cream-deep);
+    background-image: radial-gradient(circle at 10% 10%, rgba(139,105,20,0.06) 0, transparent 40%),
+                      radial-gradient(circle at 90% 80%, rgba(90,58,34,0.06) 0, transparent 40%);
+  }
+  .test-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .test-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 36px 30px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .test-card::before {
+    content: '"';
+    position: absolute;
+    top: 16px; right: 28px;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: var(--cream-deep);
+    line-height: 1;
+  }
+  .stars {
+    display: flex;
+    gap: 3px;
+    color: #d4a85a;
+    margin-bottom: 18px;
+  }
+  .stars svg { width: 18px; height: 18px; }
+  .test-quote {
+    font-size: 1rem;
+    color: var(--charcoal-soft);
+    line-height: 1.7;
+    margin-bottom: 24px;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+  .test-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .test-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--walnut);
+    color: var(--cream);
+    display: grid; place-items: center;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+  }
+  .test-author-name { font-weight: 600; color: var(--charcoal); font-size: 0.95rem; }
+  .test-author-city { color: var(--muted); font-size: 0.84rem; }
+
+  /* ---------- ORDER FORM ---------- */
+  .order { background: var(--cream); }
+  .order-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .order-info h2 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); margin-bottom: 18px; }
+  .order-info p { color: var(--muted); margin-bottom: 28px; font-size: 1.02rem; }
+  .order-contact-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+  .order-contact-list li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--charcoal-soft);
+    font-size: 0.98rem;
+  }
+  .order-contact-list .ic {
+    width: 42px; height: 42px;
+    border-radius: 4px;
+    background: var(--cream-deep);
+    display: grid; place-items: center;
+    color: var(--walnut);
+  }
+  .order-contact-list .ic svg { width: 20px; height: 20px; }
+
+  .order-form {
+    background: var(--white);
+    padding: 40px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--line);
+  }
+  .form-row { display: grid; gap: 18px; }
+  .form-group { display: flex; flex-direction: column; }
+  .form-group label {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--charcoal-soft);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .form-group label .req { color: #b94a3a; margin-left: 2px; }
+  .form-control {
+    padding: 13px 16px;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--cream);
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    color: var(--charcoal);
+  }
+  .form-control:focus {
+    outline: none;
+    border-color: var(--walnut);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(90,58,34,0.08);
+  }
+  .form-control.error {
+    border-color: #b94a3a;
+    background: #fef5f3;
+  }
+  textarea.form-control { resize: vertical; min-height: 110px; font-family: inherit; }
+  select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%235a3a22' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+  .form-success {
+    display: none;
+    background: #ecf6ec;
+    border: 1px solid #b8d8b8;
+    color: #2d5a2d;
+    padding: 16px 18px;
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    margin-bottom: 18px;
+    align-items: center;
+    gap: 10px;
+  }
+  .form-success.show { display: flex; animation: fadeUp 0.4s ease; }
+  .form-success svg { flex-shrink: 0; width: 22px; height: 22px; color: #3d8a3d; }
+
+  /* ---------- FOOTER ---------- */
+  .site-footer {
+    background: var(--charcoal);
+    color: rgba(251,248,244,0.72);
+    padding: 72px 0 28px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 56px;
+  }
+  .footer-brand .brand { color: var(--cream); margin-bottom: 18px; }
+  .footer-brand p {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    max-width: 320px;
+  }
+  .footer-col h4 {
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-col a {
+    color: rgba(251,248,244,0.72);
+    font-size: 0.92rem;
+    transition: color 0.2s ease;
+  }
+  .footer-col a:hover { color: #d4a85a; }
+  .footer-col li.contact-item {
+    color: rgba(251,248,244,0.72);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .footer-social {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .footer-social a {
+    width: 38px; height: 38px;
+    border-radius: 4px;
+    background: rgba(251,248,244,0.06);
+    display: grid; place-items: center;
+    color: rgba(251,248,244,0.85);
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  .footer-social a:hover {
+    background: var(--walnut);
+    color: var(--cream);
+    transform: translateY(-2px);
+  }
+  .footer-social svg { width: 18px; height: 18px; }
+  .footer-bottom {
+    border-top: 1px solid rgba(251,248,244,0.1);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: rgba(251,248,244,0.55);
+  }
+
+  /* ---------- ANIMATIONS ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal.delay-1 { transition-delay: 0.08s; }
+  .reveal.delay-2 { transition-delay: 0.16s; }
+  .reveal.delay-3 { transition-delay: 0.24s; }
+  .reveal.delay-4 { transition-delay: 0.32s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1024px) {
+    .features { grid-template-columns: repeat(2, 1fr); }
+    .services-grid, .test-grid, .gallery { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+    .order-wrap { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  @media (max-width: 768px) {
+    section { padding: 72px 0; }
+    .nav { height: 66px; }
+    .nav-links { display: none; }
+    .menu-btn { display: grid; place-items: center; }
+    .nav-cta { display: none; }
+
+    .mobile-menu {
+      display: block;
+      position: fixed;
+      top: 66px; left: 0; right: 0;
+      background: var(--cream);
+      border-bottom: 1px solid var(--line);
+      box-shadow: var(--shadow-md);
+      padding: 24px;
+      transform: translateY(-110%);
+      transition: transform 0.3s ease;
+      z-index: 99;
+    }
+    .mobile-menu.open { transform: translateY(0); }
+    .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .mobile-menu a {
+      display: block;
+      padding: 12px 8px;
+      font-weight: 500;
+      color: var(--charcoal-soft);
+      border-bottom: 1px solid var(--line);
+    }
+    .mobile-menu .btn { width: 100%; }
+
+    .hero { padding: 120px 0 80px; min-height: auto; }
+    .hero h1 { font-size: clamp(2rem, 8vw, 2.6rem); }
+    .hero p { font-size: 1rem; }
+    .hero-stats { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .hero-stat .num { font-size: 1.5rem; }
+    .hero-stat .label { font-size: 0.7rem; }
+
+    .features { grid-template-columns: 1fr; gap: 16px; }
+    .services-grid, .test-grid { grid-template-columns: 1fr; }
+    .gallery { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .gallery-item { aspect-ratio: 4 / 5; }
+
+    .order-form { padding: 28px 22px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+    .footer-bottom { justify-content: center; text-align: center; }
+  }
+
+  @media (max-width: 480px) {
+    .container { padding: 0 18px; }
+    .gallery { grid-template-columns: 1fr; }
+    .hero-ctas { flex-direction: column; align-items: stretch; }
+    .hero-ctas .btn { width: 100%; }
+    .filter-tab { padding: 8px 16px; font-size: 0.85rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <nav class="nav">
+      <a href="#top" class="brand" aria-label="DoorCraft">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="3" width="14" height="18" rx="1"/>
+            <circle cx="15" cy="12" r="1" fill="currentColor"/>
+          </svg>
+        </span>
+        DoorCraft
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#services" data-i18n="nav.services">Xizmatlar</a></li>
+        <li><a href="#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
+        <li><a href="#testimonials" data-i18n="nav.clients">Mijozlar</a></li>
+        <li><a href="#order" data-i18n="nav.contact">Aloqa</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <div class="lang-toggle" role="tablist" aria-label="Language">
+          <button type="button" class="active" data-lang="uz" role="tab" aria-selected="true">UZ</button>
+          <button type="button" data-lang="ru" role="tab" aria-selected="false">RU</button>
+        </div>
+        <a href="#order" class="btn btn-primary nav-cta" data-i18n="nav.cta">Buyurtma berish</a>
+        <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#services" data-i18n="nav.services">Xizmatlar</a></li>
+      <li><a href="#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
+      <li><a href="#testimonials" data-i18n="nav.clients">Mijozlar</a></li>
+      <li><a href="#order" data-i18n="nav.contact">Aloqa</a></li>
+    </ul>
+    <a href="#order" class="btn btn-primary" data-i18n="nav.cta">Buyurtma berish</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<main id="top">
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <span class="hero-eyebrow reveal" data-i18n="hero.eyebrow">Ustaxona · 2014-yildan beri</span>
+      <h1 class="reveal delay-1" data-i18n-html="hero.title">Qo'l bilan yasalgan — <em>Qalbga yaqin</em> eshiklar</h1>
+      <p class="reveal delay-2" data-i18n="hero.sub">Har bir eshik — alohida hikoya. Tabiiy yog'ochdan, ustalarning qo'lida tug'iladi. An'anaviy uslub va zamonaviy dizaynni birga olib boramiz.</p>
+      <div class="hero-ctas reveal delay-3">
+        <a href="#order" class="btn btn-primary" data-i18n="hero.cta1">Buyurtma berish</a>
+        <a href="#portfolio" class="btn btn-secondary" data-i18n="hero.cta2">Ishlarimizni ko'rish</a>
+      </div>
+      <div class="hero-stats reveal delay-4">
+        <div class="hero-stat">
+          <div class="num">10+</div>
+          <div class="label" data-i18n="hero.stat1">yil tajriba</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">500+</div>
+          <div class="label" data-i18n="hero.stat2">tayyor eshik</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">100%</div>
+          <div class="label" data-i18n="hero.stat3">tabiiy yog'och</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY US ============ -->
+<section class="why" id="why">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow" data-i18n="why.eyebrow">Nima uchun biz</span>
+      <h2 class="section-title" data-i18n="why.title">Ishonchli usta, sifatli eshik</h2>
+      <p class="section-subtitle" data-i18n="why.sub">Har bir mijoz uchun individual yondashuv, sifatli materiallar va o'z ishiga sodiq ustalar jamoasi.</p>
+    </div>
+
+    <div class="features">
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+        </div>
+        <h3 data-i18n="why.f1.title">10+ yil tajriba</h3>
+        <p data-i18n="why.f1.desc">Bir necha avlod uchun mukammallik. 2014-yildan beri yog'och bilan ishlaymiz.</p>
+      </div>
+
+      <div class="feature-card reveal delay-1">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 4.5-3.5 8-7 13C8.5 17 5 13.5 5 9a7 7 0 0 1 7-7Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </div>
+        <h3 data-i18n="why.f2.title">100% tabiiy yog'och</h3>
+        <p data-i18n="why.f2.desc">Yong'oq, eman va boshqa nodir yog'ochlar. Hech qanday imitatsiya yoki plastik aralashma.</p>
+      </div>
+
+      <div class="feature-card reveal delay-2">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5 5.5.8-4 4 1 5.5L12 16l-5 2.3 1-5.5-4-4 5.5-.8z"/></svg>
+        </div>
+        <h3 data-i18n="why.f3.title">Maxsus buyurtma</h3>
+        <p data-i18n="why.f3.desc">Sizning chizmangiz, sizning o'lchamingiz. Har bir dizayn — alohida loyiha sifatida bajariladi.</p>
+      </div>
+
+      <div class="feature-card reveal delay-3">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4Z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <h3 data-i18n="why.f4.title">Kafolat beriladi</h3>
+        <p data-i18n="why.f4.desc">5 yillik rasmiy kafolat. O'rnatishdan keyin ham xizmat ko'rsatishni davom ettiramiz.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow" data-i18n="serv.eyebrow">Xizmatlar va narxlar</span>
+      <h2 class="section-title" data-i18n="serv.title">Eshik turlari</h2>
+      <p class="section-subtitle" data-i18n="serv.sub">Har bir uy va idora uchun mos yechim. Narxlar materialdan va o'lchamdan kelib chiqib o'zgarishi mumkin.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon-wrap">
+          <img src="images/interier%20eshiklar.webp" alt="Interyer eshiklar" loading="lazy"/>
+        </div>
+        <div class="service-body">
+          <h3 data-i18n="serv.s1.title">Interyer eshiklar</h3>
+          <p data-i18n="serv.s1.desc">Xonadagi har bir tafsilotga mos keladigan, ovozni yutuvchi, nafis interyer eshiklari.</p>
+          <span class="service-price" data-i18n="serv.s1.price">800,000 so'mdan</span>
+          <a href="#order" class="btn btn-outline" data-i18n="serv.s1.cta">Buyurtma</a>
+        </div>
+      </div>
+
+      <div class="service-card reveal delay-1">
+        <div class="service-icon-wrap">
+          <img src="images/kirish%20eshiklari.webp" alt="Kirish eshiklari" loading="lazy"/>
+        </div>
+        <div class="service-body">
+          <h3 data-i18n="serv.s2.title">Kirish eshiklari</h3>
+          <p data-i18n="serv.s2.desc">Mustahkam, issiqlik saqlovchi va xavfsiz kirish eshiklari. Metall karkas + tabiiy yog'och.</p>
+          <span class="service-price" data-i18n="serv.s2.price">1,500,000 so'mdan</span>
+          <a href="#order" class="btn btn-outline" data-i18n="serv.s2.cta">Buyurtma</a>
+        </div>
+      </div>
+
+      <div class="service-card reveal delay-2">
+        <div class="service-icon-wrap">
+          <img src="images/maxsus%20eshiklar.webp" alt="Maxsus buyurtma eshiklar" loading="lazy"/>
+        </div>
+        <div class="service-body">
+          <h3 data-i18n="serv.s3.title">Maxsus buyurtma</h3>
+          <p data-i18n="serv.s3.desc">O'zingizning loyihangiz bo'yicha. O'ymakorlik, mozaika va eksklyuziv dizaynlar.</p>
+          <span class="service-price custom" data-i18n="serv.s3.price">Narxi kelishiladi</span>
+          <a href="#order" class="btn btn-outline" data-i18n="serv.s3.cta">Buyurtma</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PORTFOLIO ============ -->
+<section class="portfolio" id="portfolio">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow" data-i18n="port.eyebrow">Portfolio</span>
+      <h2 class="section-title" data-i18n="port.title">So'nggi ishlarimiz</h2>
+      <p class="section-subtitle" data-i18n="port.sub">Yuzlab tayyor loyihalar orasidan tanlangan namunalar.</p>
+    </div>
+
+    <div class="filter-tabs reveal" role="tablist">
+      <button class="filter-tab active" data-filter="all" data-i18n="port.f.all">Barchasi</button>
+      <button class="filter-tab" data-filter="interior" data-i18n="port.f.int">Interyer</button>
+      <button class="filter-tab" data-filter="entrance" data-i18n="port.f.ent">Kirish</button>
+      <button class="filter-tab" data-filter="custom" data-i18n="port.f.cus">Maxsus</button>
+    </div>
+
+    <div class="gallery" id="gallery">
+      <a href="#" class="gallery-item reveal" data-cat="interior">
+        <img src="images/1.webp" alt="Klassik yong'oq eshik" loading="lazy"/>
+        <div class="gallery-overlay">
+          <span class="tag" data-i18n="port.cat.int">Interyer</span>
+          <h4 data-i18n="port.item1">Klassik yong'oq</h4>
+          <span class="more" data-i18n="port.more">Ko'proq →</span>
+        </div>
+      </a>
+      <a href="#" class="gallery-item reveal delay-1" data-cat="entrance">
+        <img src="images/2.png" alt="Eman kirish eshigi" loading="lazy"/>
+        <div class="gallery-overlay">
+          <span class="tag" data-i18n="port.cat.ent">Kirish</span>
+          <h4 data-i18n="port.item2">Eman kirish eshigi</h4>
+          <span class="more" data-i18n="port.more">Ko'proq →</span>
+        </div>
+      </a>
+      <a href="#" class="gallery-item reveal delay-2" data-cat="custom">
+        <img src="images/3.jpg" alt="O'ymakor naqshli eshik" loading="lazy"/>
+        <div class="gallery-overlay">
+          <span class="tag" data-i18n="port.cat.cus">Maxsus</span>
+          <h4 data-i18n="port.item3">O'ymakor naqsh</h4>
+          <span class="more" data-i18n="port.more">Ko'proq →</span>
+        </div>
+      </a>
+      <a href="#" class="gallery-item reveal" data-cat="interior">
+        <img src="images/4.jpg" alt="Minimal panel eshik" loading="lazy"/>
+        <div class="gallery-overlay">
+          <span class="tag" data-i18n="port.cat.int">Interyer</span>
+          <h4 data-i18n="port.item4">Minimal panel</h4>
+          <span class="more" data-i18n="port.more">Ko'proq →</span>
+        </div>
+      </a>
+      <a href="#" class="gallery-item reveal delay-1" data-cat="entrance">
+        <img src="images/5.webp" alt="Qora yog'och kirish eshigi" loading="lazy"/>
+        <div class="gallery-overlay">
+          <span class="tag" data-i18n="port.cat.ent">Kirish</span>
+          <h4 data-i18n="port.item5">Qora yog'och kirishi</h4>
+          <span class="more" data-i18n="port.more">Ko'proq →</span>
+        </div>
+      </a>
+      <a href="#" class="gallery-item reveal delay-2" data-cat="custom">
+        <img src="images/6.jpg" alt="Sharqona bezakli eshik" loading="lazy"/>
+        <div class="gallery-overlay">
+          <span class="tag" data-i18n="port.cat.cus">Maxsus</span>
+          <h4 data-i18n="port.item6">Sharqona bezak</h4>
+          <span class="more" data-i18n="port.more">Ko'proq →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow" data-i18n="test.eyebrow">Mijozlar fikri</span>
+      <h2 class="section-title" data-i18n="test.title">Bizga ishongan oilalar</h2>
+      <p class="section-subtitle" data-i18n="test.sub">Mijozlarimizning samimiy fikrlari — bizning eng yaxshi reklamamizdir.</p>
+    </div>
+
+    <div class="test-grid">
+      <div class="test-card reveal">
+        <div class="stars" aria-label="5 yulduz">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+        </div>
+        <p class="test-quote" data-i18n="test.q1">Yangi uyimiz uchun kirish eshigi buyurtma qildik. Sifat — qoyilmaqom. Ustalar har bir tafsilotga e'tibor berishdi va vaqtida yetkazib berishdi.</p>
+        <div class="test-author">
+          <div class="test-avatar">S</div>
+          <div>
+            <div class="test-author-name">Sardor T.</div>
+            <div class="test-author-city" data-i18n="test.city1">Toshkent</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card reveal delay-1">
+        <div class="stars" aria-label="5 yulduz">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+        </div>
+        <p class="test-quote" data-i18n="test.q2">Interyer eshiklarimni shu yerda yasattirdim. Dizayni juda nafis chiqdi, qo'shnilar ham buyurtma berishmoqchi. Mehnatlariga rahmat!</p>
+        <div class="test-author">
+          <div class="test-avatar">M</div>
+          <div>
+            <div class="test-author-name">Malika R.</div>
+            <div class="test-author-city" data-i18n="test.city2">Samarqand</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card reveal delay-2">
+        <div class="stars" aria-label="5 yulduz">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9 1-5 4.9 1.2 6.8-6-3.2-6 3.2 1.2-6.8-5-4.9 6.9-1z"/></svg>
+        </div>
+        <p class="test-quote" data-i18n="test.q3">Maxsus o'ymakor eshik buyurtma berdik — natija tasavvurimizdan ham yaxshi chiqdi. Ustalar haqiqiy san'atkor. Tavsiya qilaman.</p>
+        <div class="test-author">
+          <div class="test-avatar">B</div>
+          <div>
+            <div class="test-author-name">Bobur K.</div>
+            <div class="test-author-city" data-i18n="test.city3">Buxoro</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ORDER FORM ============ -->
+<section class="order" id="order">
+  <div class="container">
+    <div class="order-wrap">
+      <div class="order-info reveal">
+        <span class="section-eyebrow" data-i18n="ord.eyebrow">Aloqa</span>
+        <h2 data-i18n="ord.title">Buyurtma berish</h2>
+        <p data-i18n="ord.sub">Formani to'ldiring — 1 soat ichida siz bilan bog'lanamiz. Maslahat bepul.</p>
+
+        <ul class="order-contact-list">
+          <li>
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.86 19.86 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92Z"/></svg></span>
+            <span>+998 90 123 45 67</span>
+          </li>
+          <li>
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+            <span data-i18n="ord.addr">Toshkent sh., Yunusobod tumani</span>
+          </li>
+          <li>
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg></span>
+            <span data-i18n="ord.hours">Du–Sha: 09:00 – 18:00</span>
+          </li>
+        </ul>
+      </div>
+
+      <form class="order-form reveal delay-1" id="orderForm" novalidate>
+        <div class="form-success" id="formSuccess" role="status" aria-live="polite">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg>
+          <span data-i18n="ord.success">Tez orada siz bilan bog'lanamiz!</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name" data-i18n="ord.f.name">Ism <span class="req">*</span></label>
+            <input type="text" id="name" name="name" class="form-control" required data-i18n-attr="placeholder:ord.f.namePh" placeholder="Ismingizni kiriting" />
+          </div>
+
+          <div class="form-group">
+            <label for="phone" data-i18n="ord.f.phone">Telefon <span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" class="form-control" required placeholder="+998 __ ___ __ __" />
+          </div>
+
+          <div class="form-group">
+            <label for="type" data-i18n="ord.f.type">Eshik turi <span class="req">*</span></label>
+            <select id="type" name="type" class="form-control" required>
+              <option value="" disabled selected data-i18n="ord.f.typePh">Tanlang...</option>
+              <option value="interior" data-i18n="ord.f.t1">Interyer eshik</option>
+              <option value="entrance" data-i18n="ord.f.t2">Kirish eshigi</option>
+              <option value="custom" data-i18n="ord.f.t3">Maxsus buyurtma</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="comment" data-i18n="ord.f.comment">Izoh</label>
+            <textarea id="comment" name="comment" class="form-control" data-i18n-attr="placeholder:ord.f.commentPh" placeholder="O'lcham, dizayn yoki boshqa ma'lumotlar..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" data-i18n="ord.f.submit">Yuborish</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand">
+          <span class="brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="3" width="14" height="18" rx="1"/>
+              <circle cx="15" cy="12" r="1" fill="currentColor"/>
+            </svg>
+          </span>
+          DoorCraft
+        </a>
+        <p data-i18n="foot.tag">Qo'l bilan yasalgan eshiklar — uyingizning yuragi. 2014-yildan beri Toshkentda.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="foot.nav">Bo'limlar</h4>
+        <ul>
+          <li><a href="#services" data-i18n="nav.services">Xizmatlar</a></li>
+          <li><a href="#portfolio" data-i18n="nav.portfolio">Portfolio</a></li>
+          <li><a href="#testimonials" data-i18n="nav.clients">Mijozlar</a></li>
+          <li><a href="#order" data-i18n="nav.contact">Aloqa</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="foot.contact">Aloqa</h4>
+        <ul>
+          <li class="contact-item">+998 90 123 45 67</li>
+          <li class="contact-item" data-i18n="ord.addr">Toshkent sh., Yunusobod tumani</li>
+          <li class="contact-item">info@doorcraft.uz</li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="foot.follow">Bizni kuzating</h4>
+        <div class="footer-social">
+          <a href="#" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.4 18.3 19.9c-.2 1-.9 1.3-1.8.8l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6 12.4l-5-1.6c-1.1-.3-1.1-1.1.2-1.6L20.2 3c.9-.3 1.7.2 1.3 1.4Z"/></svg>
+          </a>
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2025 DoorCraft. <span data-i18n="foot.rights">Barcha huquqlar himoyalangan.</span></div>
+      <div data-i18n="foot.made">Toshkentda mehr bilan yasalgan</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ============ I18N DICTIONARY ============ */
+  const I18N = {
+    uz: {
+      'nav.services': "Xizmatlar",
+      'nav.portfolio': "Portfolio",
+      'nav.clients': "Mijozlar",
+      'nav.contact': "Aloqa",
+      'nav.cta': "Buyurtma berish",
+
+      'hero.eyebrow': "Ustaxona · 2014-yildan beri",
+      'hero.title': "Qo'l bilan yasalgan — <em>Qalbga yaqin</em> eshiklar",
+      'hero.sub': "Har bir eshik — alohida hikoya. Tabiiy yog'ochdan, ustalarning qo'lida tug'iladi. An'anaviy uslub va zamonaviy dizaynni birga olib boramiz.",
+      'hero.cta1': "Buyurtma berish",
+      'hero.cta2': "Ishlarimizni ko'rish",
+      'hero.stat1': "yil tajriba",
+      'hero.stat2': "tayyor eshik",
+      'hero.stat3': "tabiiy yog'och",
+
+      'why.eyebrow': "Nima uchun biz",
+      'why.title': "Ishonchli usta, sifatli eshik",
+      'why.sub': "Har bir mijoz uchun individual yondashuv, sifatli materiallar va o'z ishiga sodiq ustalar jamoasi.",
+      'why.f1.title': "10+ yil tajriba",
+      'why.f1.desc': "Bir necha avlod uchun mukammallik. 2014-yildan beri yog'och bilan ishlaymiz.",
+      'why.f2.title': "100% tabiiy yog'och",
+      'why.f2.desc': "Yong'oq, eman va boshqa nodir yog'ochlar. Hech qanday imitatsiya yoki plastik aralashma.",
+      'why.f3.title': "Maxsus buyurtma",
+      'why.f3.desc': "Sizning chizmangiz, sizning o'lchamingiz. Har bir dizayn — alohida loyiha sifatida bajariladi.",
+      'why.f4.title': "Kafolat beriladi",
+      'why.f4.desc': "5 yillik rasmiy kafolat. O'rnatishdan keyin ham xizmat ko'rsatishni davom ettiramiz.",
+
+      'serv.eyebrow': "Xizmatlar va narxlar",
+      'serv.title': "Eshik turlari",
+      'serv.sub': "Har bir uy va idora uchun mos yechim. Narxlar materialdan va o'lchamdan kelib chiqib o'zgarishi mumkin.",
+      'serv.s1.title': "Interyer eshiklar",
+      'serv.s1.desc': "Xonadagi har bir tafsilotga mos keladigan, ovozni yutuvchi, nafis interyer eshiklari.",
+      'serv.s1.price': "800,000 so'mdan",
+      'serv.s1.cta': "Buyurtma",
+      'serv.s2.title': "Kirish eshiklari",
+      'serv.s2.desc': "Mustahkam, issiqlik saqlovchi va xavfsiz kirish eshiklari. Metall karkas + tabiiy yog'och.",
+      'serv.s2.price': "1,500,000 so'mdan",
+      'serv.s2.cta': "Buyurtma",
+      'serv.s3.title': "Maxsus buyurtma",
+      'serv.s3.desc': "O'zingizning loyihangiz bo'yicha. O'ymakorlik, mozaika va eksklyuziv dizaynlar.",
+      'serv.s3.price': "Narxi kelishiladi",
+      'serv.s3.cta': "Buyurtma",
+
+      'port.eyebrow': "Portfolio",
+      'port.title': "So'nggi ishlarimiz",
+      'port.sub': "Yuzlab tayyor loyihalar orasidan tanlangan namunalar.",
+      'port.f.all': "Barchasi",
+      'port.f.int': "Interyer",
+      'port.f.ent': "Kirish",
+      'port.f.cus': "Maxsus",
+      'port.cat.int': "Interyer",
+      'port.cat.ent': "Kirish",
+      'port.cat.cus': "Maxsus",
+      'port.more': "Ko'proq →",
+      'port.item1': "Klassik yong'oq",
+      'port.item2': "Eman kirish eshigi",
+      'port.item3': "O'ymakor naqsh",
+      'port.item4': "Minimal panel",
+      'port.item5': "Qora yog'och kirishi",
+      'port.item6': "Sharqona bezak",
+
+      'test.eyebrow': "Mijozlar fikri",
+      'test.title': "Bizga ishongan oilalar",
+      'test.sub': "Mijozlarimizning samimiy fikrlari — bizning eng yaxshi reklamamizdir.",
+      'test.q1': "Yangi uyimiz uchun kirish eshigi buyurtma qildik. Sifat — qoyilmaqom. Ustalar har bir tafsilotga e'tibor berishdi va vaqtida yetkazib berishdi.",
+      'test.q2': "Interyer eshiklarimni shu yerda yasattirdim. Dizayni juda nafis chiqdi, qo'shnilar ham buyurtma berishmoqchi. Mehnatlariga rahmat!",
+      'test.q3': "Maxsus o'ymakor eshik buyurtma berdik — natija tasavvurimizdan ham yaxshi chiqdi. Ustalar haqiqiy san'atkor. Tavsiya qilaman.",
+      'test.city1': "Toshkent",
+      'test.city2': "Samarqand",
+      'test.city3': "Buxoro",
+
+      'ord.eyebrow': "Aloqa",
+      'ord.title': "Buyurtma berish",
+      'ord.sub': "Formani to'ldiring — 1 soat ichida siz bilan bog'lanamiz. Maslahat bepul.",
+      'ord.addr': "Toshkent sh., Yunusobod tumani",
+      'ord.hours': "Du–Sha: 09:00 – 18:00",
+      'ord.f.name': "Ism",
+      'ord.f.namePh': "Ismingizni kiriting",
+      'ord.f.phone': "Telefon",
+      'ord.f.type': "Eshik turi",
+      'ord.f.typePh': "Tanlang...",
+      'ord.f.t1': "Interyer eshik",
+      'ord.f.t2': "Kirish eshigi",
+      'ord.f.t3': "Maxsus buyurtma",
+      'ord.f.comment': "Izoh",
+      'ord.f.commentPh': "O'lcham, dizayn yoki boshqa ma'lumotlar...",
+      'ord.f.submit': "Yuborish",
+      'ord.success': "Tez orada siz bilan bog'lanamiz!",
+
+      'foot.tag': "Qo'l bilan yasalgan eshiklar — uyingizning yuragi. 2014-yildan beri Toshkentda.",
+      'foot.nav': "Bo'limlar",
+      'foot.contact': "Aloqa",
+      'foot.follow': "Bizni kuzating",
+      'foot.rights': "Barcha huquqlar himoyalangan.",
+      'foot.made': "Toshkentda mehr bilan yasalgan",
+
+      'title': "DoorCraft — Qo'l bilan yasalgan eshiklar"
+    },
+
+    ru: {
+      'nav.services': "Услуги",
+      'nav.portfolio': "Портфолио",
+      'nav.clients': "Отзывы",
+      'nav.contact': "Контакты",
+      'nav.cta': "Заказать",
+
+      'hero.eyebrow': "Мастерская · с 2014 года",
+      'hero.title': "Двери, созданные <em>руками</em> мастеров",
+      'hero.sub': "Каждая дверь — отдельная история. Из натурального дерева, рожденная в руках мастеров. Мы сочетаем традиционное мастерство и современный дизайн.",
+      'hero.cta1': "Заказать",
+      'hero.cta2': "Посмотреть работы",
+      'hero.stat1': "лет опыта",
+      'hero.stat2': "готовых дверей",
+      'hero.stat3': "натуральное дерево",
+
+      'why.eyebrow': "Почему мы",
+      'why.title': "Надёжный мастер — качественная дверь",
+      'why.sub': "Индивидуальный подход к каждому клиенту, качественные материалы и команда мастеров, преданных своему делу.",
+      'why.f1.title': "10+ лет опыта",
+      'why.f1.desc': "Совершенство, отточенное поколениями. Работаем с деревом с 2014 года.",
+      'why.f2.title': "100% натуральное дерево",
+      'why.f2.desc': "Орех, дуб и другие редкие породы. Никаких имитаций или пластиковых примесей.",
+      'why.f3.title': "Индивидуальный заказ",
+      'why.f3.desc': "Ваш чертёж, ваши размеры. Каждый дизайн выполняется как отдельный проект.",
+      'why.f4.title': "Гарантия качества",
+      'why.f4.desc': "Официальная гарантия 5 лет. Продолжаем обслуживание и после установки.",
+
+      'serv.eyebrow': "Услуги и цены",
+      'serv.title': "Виды дверей",
+      'serv.sub': "Решение для каждого дома и офиса. Цены могут меняться в зависимости от материала и размера.",
+      'serv.s1.title': "Межкомнатные двери",
+      'serv.s1.desc': "Изысканные межкомнатные двери, поглощающие звук и подходящие к любому интерьеру.",
+      'serv.s1.price': "от 800 000 сум",
+      'serv.s1.cta': "Заказать",
+      'serv.s2.title': "Входные двери",
+      'serv.s2.desc': "Прочные, теплоизолирующие и безопасные входные двери. Металлический каркас + натуральное дерево.",
+      'serv.s2.price': "от 1 500 000 сум",
+      'serv.s2.cta': "Заказать",
+      'serv.s3.title': "Индивидуальный заказ",
+      'serv.s3.desc': "По вашему проекту. Резьба, мозаика и эксклюзивный дизайн.",
+      'serv.s3.price': "По договорённости",
+      'serv.s3.cta': "Заказать",
+
+      'port.eyebrow': "Портфолио",
+      'port.title': "Наши последние работы",
+      'port.sub': "Избранные примеры из сотен завершённых проектов.",
+      'port.f.all': "Все",
+      'port.f.int': "Межкомнатные",
+      'port.f.ent': "Входные",
+      'port.f.cus': "Индивидуальные",
+      'port.cat.int': "Межкомнатная",
+      'port.cat.ent': "Входная",
+      'port.cat.cus': "Индивидуальная",
+      'port.more': "Подробнее →",
+      'port.item1': "Классический орех",
+      'port.item2': "Дубовая входная",
+      'port.item3': "Резной узор",
+      'port.item4': "Минимал-панель",
+      'port.item5': "Чёрный дуб",
+      'port.item6': "Восточный орнамент",
+
+      'test.eyebrow': "Отзывы клиентов",
+      'test.title': "Семьи, которые нам доверяют",
+      'test.sub': "Искренние отзывы наших клиентов — лучшая реклама для нас.",
+      'test.q1': "Заказали входную дверь для нового дома. Качество — превосходное. Мастера учли каждую деталь и сдали работу вовремя.",
+      'test.q2': "Сделала здесь все межкомнатные двери. Дизайн получился очень элегантным, соседи тоже хотят заказать. Спасибо за труд!",
+      'test.q3': "Заказали индивидуальную резную дверь — результат превзошёл ожидания. Мастера — настоящие художники. Рекомендую.",
+      'test.city1': "Ташкент",
+      'test.city2': "Самарканд",
+      'test.city3': "Бухара",
+
+      'ord.eyebrow': "Контакты",
+      'ord.title': "Оставить заявку",
+      'ord.sub': "Заполните форму — мы свяжемся с вами в течение часа. Консультация бесплатно.",
+      'ord.addr': "г. Ташкент, Юнусабадский район",
+      'ord.hours': "Пн–Сб: 09:00 – 18:00",
+      'ord.f.name': "Имя",
+      'ord.f.namePh': "Введите ваше имя",
+      'ord.f.phone': "Телефон",
+      'ord.f.type': "Тип двери",
+      'ord.f.typePh': "Выберите...",
+      'ord.f.t1': "Межкомнатная дверь",
+      'ord.f.t2': "Входная дверь",
+      'ord.f.t3': "Индивидуальный заказ",
+      'ord.f.comment': "Комментарий",
+      'ord.f.commentPh': "Размеры, дизайн или другие детали...",
+      'ord.f.submit': "Отправить",
+      'ord.success': "Мы свяжемся с вами!",
+
+      'foot.tag': "Двери, созданные руками — сердце вашего дома. В Ташкенте с 2014 года.",
+      'foot.nav': "Разделы",
+      'foot.contact': "Контакты",
+      'foot.follow': "Мы в соцсетях",
+      'foot.rights': "Все права защищены.",
+      'foot.made': "Сделано с любовью в Ташкенте",
+
+      'title': "DoorCraft — Двери ручной работы"
+    }
+  };
+
+  /* ============ LANGUAGE TOGGLE ============ */
+  const STORAGE_KEY = 'doorcraft-lang';
+  let currentLang = (() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return (saved === 'uz' || saved === 'ru') ? saved : 'uz';
+    } catch (e) { return 'uz'; }
+  })();
+
+  function applyLang(lang) {
+    currentLang = lang;
+    const dict = I18N[lang];
+    if (!dict) return;
+
+    document.documentElement.lang = lang;
+    if (dict['title']) document.title = dict['title'];
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+
+    document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+      const raw = el.getAttribute('data-i18n-attr');
+      raw.split(',').forEach(pair => {
+        const [attr, key] = pair.split(':').map(s => s.trim());
+        if (attr && key && dict[key] !== undefined) {
+          el.setAttribute(attr, dict[key]);
+        }
+      });
+    });
+
+    document.querySelectorAll('.lang-toggle button').forEach(btn => {
+      const active = btn.dataset.lang === lang;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', String(active));
+    });
+
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+  }
+
+  document.querySelectorAll('.lang-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+  });
+
+  /* ============ MOBILE MENU ============ */
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* ============ HEADER SCROLL ============ */
+  const header = document.getElementById('siteHeader');
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ============ REVEAL ON SCROLL ============ */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ============ PORTFOLIO FILTER ============ */
+  const tabs = document.querySelectorAll('.filter-tab');
+  const items = document.querySelectorAll('.gallery-item');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+      items.forEach(item => {
+        const show = filter === 'all' || item.dataset.cat === filter;
+        item.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  /* ============ FORM VALIDATION ============ */
+  const form = document.getElementById('orderForm');
+  const success = document.getElementById('formSuccess');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valid = true;
+    const required = form.querySelectorAll('[required]');
+    required.forEach(field => {
+      const v = (field.value || '').trim();
+      if (!v) {
+        field.classList.add('error');
+        valid = false;
+      } else {
+        field.classList.remove('error');
+      }
+    });
+
+    if (!valid) {
+      const firstError = form.querySelector('.error');
+      if (firstError) firstError.focus();
+      return;
+    }
+
+    success.classList.add('show');
+    form.reset();
+    setTimeout(() => success.classList.remove('show'), 6000);
+  });
+
+  form.querySelectorAll('.form-control').forEach(field => {
+    field.addEventListener('input', () => field.classList.remove('error'));
+    field.addEventListener('change', () => field.classList.remove('error'));
+  });
+
+  /* ============ INIT ============ */
+  applyLang(currentLang);
+</script>
+</body>
+</html>
